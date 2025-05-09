@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>body</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+
+    <div>
+        <main class="flex-1 py-6">
+            <div class="flex justify-between items-center ">
+                <h1 class="text-2xl font-semibold" id="greeting"></h1>
+                <div class="flex items-center space-x-2">
+                    <!-- Filter Dropdown -->
+                    <button class="bg-gray-200 px-4 py-2 rounded-lg">
+                        <select id="inputselect" class="bg-transparent outline-none">
+                            <option value="option1">Today</option>
+                            <option value="option2">Tomorrow</option>
+                            <option value="option3">Yesterday</option>
+                            <option value="option4">Default</option>
+                        </select>
+
+
+                    </button>
+
+                    <!-- Menu Button -->
+                    <div class="relative">
+                        <button id="menuButton" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-md mr-10">
+                            ☰
+                        </button>
+                        <div id="menuDropdown"
+                            class="hidden absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg">
+                            <ul class="py-2">
+                                <li><a href="/profile" class="block px-4 py-2 hover:bg-gray-100" id="profile"></a></li>
+                                <li><a href="/login" class="block px-4 py-2 hover:bg-gray-100">LogOut</a></li>
+                                <li><a href="#" class="block px-4 py-2 hover:bg-gray-100"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex  items-center px-9">
+                <span id="time" class="text-gray-500"></span>
+                <p class="text-gray-500 font-bold px-2" id="date"></p>
+            </div>
+            <div class="flex justify-between items-center mt-20">
+                <button class="border border-black-300 rounded-lg h-10 w-150 bg-slate-600 text-white py-2 px-4"
+                    id="openModal">
+                    create new task
+                </button>
+                <button id="filterBtn"
+                    class="border rounded-lg bg-slate-500 h-10 w-10 mt-4 mr-40 mb-4 mx-4 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707L14 12.414V19a1 1 0 01-.553.894l-4 2A1 1 0 018 21v-8.586L3.293 7.293A1 1 0 013 6.586V4z" />
+                    </svg>
+                </button>
+
+
+                <div id="popup" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+                    <div class="bg-white p-6 rounded-lg shadow-lg w-80">
+                        <h2 class="text-xl font-semibold mb-4">Filter by Date</h2>
+                        <label class="block text-sm font-medium">From Date</label>
+                        <input type="date" id="fromDate" class="border rounded-lg w-full p-2 mb-4">
+
+                        <label class="block text-sm font-medium">To Date</label>
+                        <input type="date" id="toDate" class="border rounded-lg w-full p-2 mb-4">
+
+                        <div class="flex justify-between">
+                            <button id="closeBtn" class="px-4 py-2 bg-gray-400 rounded-lg text-white">Cancel</button>
+                            <button id="applyBtn" class="px-4 py-2 bg-green-500 rounded-lg text-white">Apply</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Popup Modal -->
+            <div id="modal" class="hidden fixed inset-0 flex items-center justify-center  bg-opacity-50 bg-gray-900">
+                <div class="bg-white p-6 rounded-lg shadow-lg w-1/4">
+                    <h2 class="text-lg font-bold mb-4">Create new task</h2>
+
+                    <!-- Form -->
+                    <form>
+
+                        <!-- Date Input -->
+                        <label for="dateInput" class="block text-sm font-medium text-gray-700">Select Date:</label>
+                        <input type="date" id="dateInput" name="date" class="w-full p-2 mt-1 border rounded-md">
+
+                        <!-- From Time -->
+                        <label for="fromTime" class="block text-sm font-medium text-gray-700">From Time:</label>
+                        <input type="time" id="fromTime" name="from_time" class="w-full p-2 mt-1 border rounded-md">
+
+                        <!-- To Time -->
+                        <label for="toTime" class="block text-sm font-medium text-gray-700 mt-3">To Time:</label>
+                        <input type="time" id="toTime" name="to_time" class="w-full p-2 mt-1 border rounded-md">
+
+
+                        <!-- Select Category -->
+
+                        <label for="selectInput" class="block text-sm font-medium text-gray-700 mt-3">Select
+                            Category:</label>
+                        <select id="selectInput" name="category"
+                            class="w-full p-2 mt-1 border rounded-md max-h-80 overflow-y-auto ">
+                        </select>
+
+                        <label for="Task" class="block text-sm font-medium text-gray-700 mt-3">Task:</label>
+                        <input type="text" id="etask" name="task" class="w-full p-2 mt-1 border rounded-md">
+                        <label for="taskNote"
+                            class="block text-sm font-medium text-gray-700 mt-3">Description:</label><br>
+                        <textarea id="taskNote" rows="3" placeholder="Add a note about the task..."
+                            class="w-full p-2 border rounded-md"></textarea>
+
+                        <!-- Buttons -->
+                        <div class="mt-4 flex justify-between">
+                            <button id="closeModal" type="button"
+                                class="px-4 py-2 bg-red-500 text-white rounded-md">Close</button>
+                            <button id="submitBtn" type="button" class="px-4 py-2 bg-green-500 text-white rounded-md">
+                                Submit
+                            </button>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </main>
+        <div>
+            <table class="border ">
+
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="px-12 py-2 w-20">S.No</th>
+                        <th class="px-4 py-2 w-40">Date</th>
+                        <th class="px-4 py-2 w-20">from</th>
+                        <th class="px-4 py-2 w-20">To</th>
+                        <th class="px-4 py-2 w-20">select_category</th>
+                        <th class="px-4 py-2 ">Task</th>
+                        <th class="px-4 py-2 ">Description</th>
+                        <th class="px-4 py-2 ">Edit</th>
+                    </tr>
+                </thead>
+                <tbody id="dataTableBody">
+                    <!-- Data will be injected here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        const firstName = localStorage.getItem("firstname");
+        document.getElementById("profile").innerHTML = `${firstName}`;
+        const greetingText = document.getElementById('greeting');
+        function getGreeting() {
+            const hours = new Date().getHours();
+            let greeting = `Hi!, ${firstName}`;
+            if (hours >= 5 && hours < 12) greeting = `Hi Good Morning, ${firstName}! 👋`;
+            else if (hours >= 12 && hours < 16) greeting = `Hi Good Afternoon, ${firstName}! 👋`;
+            else if (hours >= 16 && hours < 21) greeting = `Hi Good Evening, ${firstName}! 👋`;
+            greetingText.textContent = greeting;
+        }
+        getGreeting();
+
+        function updateDateTime() {
+            const now = new Date();
+            // Get day, date
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateString = now.toLocaleDateString(undefined, options);
+            const timeString = now.toLocaleTimeString();
+            // Update elements
+            document.getElementById("date").textContent = dateString;
+            document.getElementById("time").textContent = timeString;
+
+        }
+        // Update time every second
+        setInterval(updateDateTime, 1000);
+        // Initial call to set values on page load
+        document.addEventListener("DOMContentLoaded", updateDateTime);
+
+        //popup
+        document.addEventListener("DOMContentLoaded", function () {
+            const modal = document.getElementById("modal");
+            const openModalBtn = document.getElementById("openModal");
+            const closeModalBtn = document.getElementById("closeModal");
+            const dateInput = document.getElementById("dateInput");
+            const fromTimeInput = document.getElementById("fromTime");
+            const toTimeInput = document.getElementById("toTime");
+            const errorText = document.getElementById("errorText"); // Ensure this element exists in your HTML
+
+            // Function to round minutes to nearest 5
+            function roundToNearest5Minutes(date) {
+                const minutes = date.getMinutes();
+                const roundedMinutes = Math.ceil(minutes / 5) * 5;
+                date.setMinutes(roundedMinutes);
+                return date;
+            }
+
+            // Set default date & time
+            function setDefaultDateTime() {
+                const now = new Date();
+                const roundedNow = roundToNearest5Minutes(new Date(now));
+
+                // Format date as YYYY-MM-DD
+                dateInput.value = now.toISOString().split("T")[0];
+
+                // Format time as HH:MM
+                const fromTime = roundedNow.toTimeString().slice(0, 5);
+                roundedNow.setMinutes(roundedNow.getMinutes() + 30); // Add 30 minutes for "to time"
+                const toTime = roundedNow.toTimeString().slice(0, 5);
+
+                fromTimeInput.value = fromTime;
+                toTimeInput.value = toTime;
+            }
+
+            setDefaultDateTime(); // Set initial values when page loads
+
+            function validateTime() {
+                const fromTime = fromTimeInput.value;
+                const toTime = toTimeInput.value;
+
+                if (fromTime && toTime && fromTime >= toTime) {
+                    errorText.textContent = "End time must be after start time!";
+                    toTimeInput.classList.add("border-red-500");
+                } else {
+                    errorText.textContent = ""; // Clear error
+                    toTimeInput.classList.remove("border-red-500");
+                }
+            }
+
+            fromTimeInput.addEventListener("change", validateTime);
+            toTimeInput.addEventListener("change", validateTime);
+
+            // Open modal
+            openModalBtn.addEventListener("click", () => {
+                modal.classList.remove("hidden");
+                setDefaultDateTime(); // Reset to default when modal opens
+            });
+
+            // Close modal
+            closeModalBtn.addEventListener("click", () => {
+                modal.classList.add("hidden");
+            });
+        });
+
+        function closeModal() {
+            document.getElementById("modal").classList.add("hidden");
+        }
+
+        //menu
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuButton = document.getElementById("menuButton");
+            const menuDropdown = document.getElementById("menuDropdown");
+
+            menuButton.addEventListener("click", function (event) {
+                event.stopPropagation(); // Prevents closing immediately when clicking
+                menuDropdown.classList.toggle("hidden");
+            });
+
+            document.addEventListener("click", function (event) {
+                if (!menuButton.contains(event.target) && !menuDropdown.contains(event.target)) {
+                    menuDropdown.classList.add("hidden");
+                }
+            });
+        });
+
+
+        // fetch post method
+        async function submitData() {
+            const date = document.getElementById("dateInput").value;
+            const from_time = document.getElementById("fromTime").value;
+            const to_time = document.getElementById("toTime").value;
+            const select_category = document.getElementById("selectInput").value;
+            const task = document.getElementById("etask").value;
+            const note = document.getElementById("taskNote").value; // Get the note value
+
+            if (!date || !from_time || !to_time || !select_category || !task || !note) {
+                alert("Please fill out all fields.");
+                return;
+            }
+
+            const payload = {
+                date: date,
+                from_time: from_time,
+                to_time: to_time,
+                select_category: select_category,
+                task: task,
+                note: note,
+            };
+
+            try {
+                const response = await fetch("http://127.0.0.1:8000/categery", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    alert("Task Created Successfully!");
+
+                    // Reset form fields
+                    document.getElementById("dateInput").value = "";
+                    document.getElementById("fromTime").value = "";
+                    document.getElementById("toTime").value = "";
+                    document.getElementById("selectInput").value = "";
+                    document.getElementById("etask").value = "";
+                    document.getElementById("taskNote").value = "";
+
+                    // Close the modal
+                    closeModal();
+
+                    // Refresh task list
+                    fetchData();
+
+                } else {
+                    alert("Error: " + data.detail);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("Failed to create task.");
+            }
+        }
+
+
+
+        //get data
+        document.addEventListener("DOMContentLoaded", fetchData);
+
+        async function fetchData() {
+            try {
+                let response = await fetch("http://127.0.0.1:8000/categery/");
+                let fetchresponse = await response.json();
+                Table(fetchresponse.data);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
+
+        window.addEventListener("message", (event) => {
+            if (event.data.action === "updateTable") {
+                console.log("✅ Received updated tasks in body.html:", event.data.tasks);
+                filterTasks(event.data.tasks); // Call function to update UI
+            }
+        });
+
+
+        function Table(data) {
+            let table = document.getElementById("dataTableBody");
+            table.innerHTML = data.map((item, index) => `
+        <tr id="row-${item._id}" class="border-b">
+            <td class="px-4 py-2">${index + 1}</td>
+            <td class="px-4 py-2">${item.date}</td>
+            <td class="px-4 py-2">${item.from_time}</td>
+            <td class="px-4 py-2">${item.to_time}</td>
+            <td class="px-4 py-2">${item.select_category}</td>
+            <td class="px-4 py-2">${item.task}</td>
+            <td class="px-4 py-2">${item.note}</td>
+            <td class="px-4 py-2">
+                <button class="bg-green-500 text-black px-3 py-1 rounded-full hover:bg-pink-600" 
+                    onclick="openUpdateModal('${item._id}', '${item.date}', '${item.from_time}', '${item.to_time}', '${item.select_category}','${item.task}','${item.note}')">
+                    Update
+                </button>
+                <button class="bg-green-500 text-black px-3 py-1 rounded-full hover:bg-red-600 ml-2" 
+                    onclick="deleteTask('${item._id}')">
+                    Delete
+                </button>
+            </td>
+        </tr>
+    `).join('');
+        }
+
+        // to delete the task
+        async function deleteTask(taskId) {
+            try {
+                const response = await fetch(`http://127.0.0.1:8000/categery/${taskId}`, {
+                    method: 'DELETE',
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                // Optionally, remove the task from the UI
+                const row = document.getElementById(`row-${taskId}`);
+                if (row) {
+                    row.remove();
+                    fetchData();
+                }
+            } catch (error) {
+                console.error('Error deleting task:', error);
+            }
+        }
+
+
+
+        // Open Modal for Creating a New Task (Clears Fields)
+        document.getElementById("openModal").addEventListener("click", function () {
+            document.getElementById("dateInput").value = "";
+            document.getElementById("fromTime").value = "";
+            document.getElementById("toTime").value = "";
+            document.getElementById("selectInput").value = "";
+            document.getElementById("etask").value = "";
+            document.getElementById("taskNote").value = "";
+
+            const submitBtn = document.getElementById("submitBtn");
+            submitBtn.textContent = "Create Task";
+            submitBtn.setAttribute("onclick", "submitData()");
+
+            document.getElementById("modal").classList.remove("hidden");
+        });
+
+        // Open Modal for Updating a Task (Prefills Fields)
+        function openUpdateModal(taskId, date, fromTime, toTime, category, task, note) {
+            document.getElementById("dateInput").value = date;
+            document.getElementById("fromTime").value = fromTime;
+            document.getElementById("toTime").value = toTime;
+            document.getElementById("selectInput").value = category;
+            document.getElementById("etask").value = task;
+            document.getElementById("taskNote").value = note;
+
+            const submitBtn = document.getElementById("submitBtn");
+            submitBtn.textContent = "Update Task";
+            submitBtn.setAttribute("onclick", `updateTask('${taskId}')`);
+
+            document.getElementById("modal").classList.remove("hidden");
+        }
+
+        // Update Task in Backend
+        async function updateTask(taskId) {
+            const updatedTask = {
+                date: document.getElementById("dateInput").value,
+                from_time: document.getElementById("fromTime").value,
+                to_time: document.getElementById("toTime").value,
+                select_category: document.getElementById("selectInput").value,
+                task: document.getElementById("etask").value,
+                note: document.getElementById("taskNote").value
+            };
+
+            try {
+                const response = await fetch(`http://127.0.0.1:8000/categery/${taskId}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(updatedTask)
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    alert("Task Updated Successfully!");
+                    document.getElementById("modal").classList.add("hidden");
+                    fetchData();  // Refresh table
+                } else {
+                    alert("Error: " + result.detail);
+                }
+            } catch (error) {
+                console.error("Error updating task:", error);
+                alert("Failed to update task.");
+            }
+        }
+
+
+        //select option
+        document.addEventListener("DOMContentLoaded", function () {
+            let apiUrl = "http://127.0.0.1:8000/task";
+            let listContainer = document.getElementById("selectInput");
+            let existingCategories = new Set();
+            let selectInput = document.getElementById("selectInput");
+
+            function fetchAndUpdate() {
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(responseData => {
+                        // console.log("API Response:", responseData);
+
+                        let categories = responseData?.data;
+
+                        if (!Array.isArray(categories)) {
+                            console.error("Expected an array but got:", categories);
+                            return;
+                        }
+
+                        categories.forEach(category => {
+                            if (!existingCategories.has(category.name)) { // Only add new items
+                                let listItem = document.createElement("li");
+                                listItem.className = "flex items-center justify-between hover:bg-red-100 rounded-lg h-15 w-100 py-2";
+                                listItem.innerHTML = `
+                            <span class="flex items-center gap-2 ml-6 font-semibold ">${category?.name}</span>
+                           
+                        `;
+
+                                listContainer.appendChild(listItem);
+                                existingCategories.add(category.name);
+
+                                // Add the category to the select dropdown
+                                let option = document.createElement("option");
+                                option.value = category.name;
+                                option.textContent = category.name;
+                                selectInput.appendChild(option);
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error("Error fetching categories:", error);
+                    });
+            }
+
+            fetchAndUpdate(); // Initial call
+
+        });
+
+
+
+
+
+        //filter
+
+        async function fetchData() {
+            try {
+                let response = await fetch("http://127.0.0.1:8000/categery/");
+                let fetchresponse = await response.json();
+                filterTasks(fetchresponse.data);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
+
+        function filterTasks(tasks) {
+            let selectElement = document.getElementById("inputselect");
+
+            function applyFilter() {
+                let selectedValue = selectElement.value;
+                let filteredTasks = [];
+
+                let today = new Date().toISOString().split("T")[0];
+                let tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                let formattedTomorrow = tomorrow.toISOString().split("T")[0];
+
+                let yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+                let formattedYesterday = yesterday.toISOString().split("T")[0];
+
+                filteredTasks = tasks.filter(task => {
+                    let taskDate = new Date(task.date).toISOString().split("T")[0];
+
+                    if (selectedValue === "option1") return taskDate === today;
+                    if (selectedValue === "option2") return taskDate === formattedTomorrow;
+                    if (selectedValue === "option3") return taskDate === formattedYesterday;
+                    return true;
+                });
+
+                Table(filteredTasks);
+            }
+
+            selectElement.addEventListener("change", applyFilter);
+            selectElement.dispatchEvent(new Event("change")); // Initial filtering
+        }
+
+        fetchData();
+
+        //filter by range of dates
+        document.getElementById("filterBtn").addEventListener("click", function () {
+            document.getElementById("popup").classList.remove("hidden");
+        });
+
+        document.getElementById("closeBtn").addEventListener("click", function () {
+            document.getElementById("popup").classList.add("hidden");
+        });
+
+        document.getElementById("applyBtn").addEventListener("click", function () {
+            let fromDate = document.getElementById("fromDate").value;
+            let toDate = document.getElementById("toDate").value;
+
+            if (!fromDate || !toDate) {
+                alert("Please select both From Date and To Date.");
+                return;
+            }
+
+            fetchDataWithFilter(fromDate, toDate);
+            document.getElementById("popup").classList.add("hidden");
+        });
+
+        async function fetchDataWithFilter(fromDate, toDate) {
+            try {
+                let response = await fetch("http://127.0.0.1:8000/categery/");
+                let fetchresponse = await response.json();
+
+                let filteredData = fetchresponse.data.filter(item => {
+                    return item.date >= fromDate && item.date <= toDate;
+                });
+
+                Table(filteredData);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>

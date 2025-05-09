@@ -1,0 +1,34 @@
+{
+  "manifest_version": 3,
+  "name": "Simple Popup Extension",
+  "version": "1.0",
+  "description": "A simple Chrome extension with a popup",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {"16":"/images/download.png"}
+  },
+  "icons":{
+    "16":"/images/download.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "http://127.0.0.1:8000/*" 
+        ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ]
+}
